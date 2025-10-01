@@ -1,0 +1,236 @@
+:root {
+  --primary-color: #0b74d1;
+  --primary-dark: #055494;
+  --background: #f5f7fb;
+  --card-bg: #ffffff;
+  --text-color: #1f2933;
+  --muted-color: #6c7a89;
+  --error-color: #c0392b;
+  --success-color: #2ecc71;
+  --border-radius: 12px;
+  --transition: 0.3s ease;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--text-color);
+}
+
+.app {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 16px 48px;
+}
+
+.app__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.app__header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+.tabs {
+  display: inline-flex;
+  gap: 8px;
+  padding: 4px;
+  background: rgba(11, 116, 209, 0.12);
+  border-radius: 999px;
+}
+
+.tabs__tab {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--primary-color);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition);
+}
+
+.tabs__tab--active,
+.tabs__tab:hover {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.tab-content {
+  display: none;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+.tab-content--active {
+  display: block;
+}
+
+.primary-button {
+  display: inline-block;
+  padding: 14px 24px;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.primary-button:hover,
+.primary-button:focus {
+  background: var(--primary-dark);
+}
+
+.application {
+  margin-top: 24px;
+  display: grid;
+  gap: 20px;
+}
+
+.application--hidden {
+  display: none;
+}
+
+.application__header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stages {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(120px, 1fr)) auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.stage {
+  padding: 12px 16px;
+  background: rgba(11, 116, 209, 0.08);
+  border-radius: 10px;
+  text-align: center;
+  color: var(--muted-color);
+  font-weight: 600;
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+.stage--active {
+  background: var(--primary-color);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.stage--completed {
+  background: rgba(46, 204, 113, 0.18);
+  color: var(--success-color);
+}
+
+.stage-control {
+  justify-self: end;
+  padding: 12px 16px;
+  background: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 20px;
+  line-height: 1;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.stage-control:hover,
+.stage-control:focus {
+  background: var(--primary-dark);
+  transform: translateX(2px);
+}
+
+.application__body {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1 1 280px;
+}
+
+.field__label {
+  font-weight: 600;
+}
+
+.field__input {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(31, 41, 51, 0.2);
+  font-size: 16px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.field__input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(11, 116, 209, 0.15);
+}
+
+.field__input[readonly] {
+  cursor: pointer;
+  background: rgba(11, 116, 209, 0.05);
+}
+
+.profile__hint {
+  margin: 0;
+  color: var(--muted-color);
+  font-size: 14px;
+}
+
+.field__error {
+  min-height: 18px;
+  color: var(--error-color);
+  font-size: 13px;
+}
+
+.toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  max-width: 320px;
+  padding: 16px 18px;
+  background: rgba(11, 116, 209, 0.9);
+  color: #fff;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.15);
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .stages {
+    grid-template-columns: repeat(2, minmax(160px, 1fr));
+  }
+
+  .stage-control {
+    justify-self: stretch;
+  }
+}
