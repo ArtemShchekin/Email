@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Кредитная заявка</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <header class="app__header">
+      <h1>Кредитная заявка</h1>
+      <nav class="tabs" role="tablist">
+        <button class="tabs__tab tabs__tab--active" data-target="home" role="tab" aria-selected="true">Главная</button>
+        <button class="tabs__tab" data-target="profile" role="tab" aria-selected="false">Профиль</button>
+      </nav>
+    </header>
+
+    <main class="app__content">
+      <section id="home" class="tab-content tab-content--active" role="tabpanel">
+        <button id="open-application" class="primary-button">Отправить заявку на получение кредита</button>
+
+        <section id="application" class="application application--hidden" aria-live="polite">
+          <header class="application__header">
+            <h2>Статус заявки</h2>
+            <div class="stages" role="list">
+              <div class="stage stage--active" data-stage-index="0">Формирование</div>
+              <div class="stage" data-stage-index="1">Согласование</div>
+              <div class="stage" data-stage-index="2">Регистрация</div>
+              <div class="stage" data-stage-index="3">В работе</div>
+              <div class="stage" data-stage-index="4">Выполнено</div>
+              <button id="next-stage" class="stage-control" aria-label="Следующий этап" title="Следующий этап">➡</button>
+            </div>
+          </header>
+
+          <div class="application__body">
+            <label class="field">
+              <span class="field__label">Менеджер</span>
+              <input type="text" id="manager" class="field__input" placeholder="Нажмите, чтобы подставить имя из профиля" readonly>
+            </label>
+          </div>
+        </section>
+      </section>
+
+      <section id="profile" class="tab-content" role="tabpanel">
+        <form id="profile-form" class="profile" novalidate>
+          <p class="profile__hint">Имя должно состоять минимум из 2 букв, допустимы только кириллица и пробелы.</p>
+          <label class="field">
+            <span class="field__label">Имя</span>
+            <input type="text" id="name" class="field__input" name="name" placeholder="Введите имя" required pattern="^[А-Яа-яЁё\s]{2,}$">
+            <span class="field__error" id="name-error"></span>
+          </label>
+
+          <p class="profile__hint">Email должен соответствовать формату user@example.com.</p>
+          <label class="field">
+            <span class="field__label">Email</span>
+            <input type="email" id="email" class="field__input" name="email" placeholder="Введите email">
+            <span class="field__error" id="email-error"></span>
+          </label>
+
+          <button type="submit" class="primary-button">Сохранить</button>
+        </form>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
