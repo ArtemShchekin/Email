@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тестовое задание — Кредитная заявка</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-header__badge">Тестовое задание для QA</p>
+      <h1 class="site-header__title">Кредитная заявка</h1>
+      <p class="site-header__subtitle">На этой странице собраны поля и сценарии, которые помогут протестировать процесс подачи кредитной заявки.</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card" aria-labelledby="credit-form-title">
+      <header class="card__header">
+        <h2 id="credit-form-title">Форма заявки</h2>
+        <p class="card__hint">Заполните данные клиента. После отправки заявки появится расчёт с ежемесячным платежом и коэффициентом долговой нагрузки.</p>
+      </header>
+
+      <form id="credit-form" class="form" novalidate>
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">ФИО клиента</span>
+            <input type="text" id="client-name" name="client-name" class="field__input" placeholder="Например, Иванов Иван Иванович" required pattern="^[А-Яа-яЁё\-\s]{5,}$">
+            <span class="field__description">Допускаются только кириллица, дефис и пробелы (не менее 5 символов).</span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Номер телефона</span>
+            <input type="tel" id="client-phone" name="client-phone" class="field__input" placeholder="+7 (___) ___-__-__" required pattern="^\+7\s?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$">
+            <span class="field__description">Формат +7 (999) 000-00-00.</span>
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">Сумма кредита, ₽</span>
+            <input type="number" id="loan-amount" name="loan-amount" class="field__input" min="10000" max="10000000" step="1000" required>
+            <span class="field__description">Минимум 10 000 ₽, максимум 10 000 000 ₽.</span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Срок кредита, месяцев</span>
+            <input type="number" id="loan-term" name="loan-term" class="field__input" min="3" max="360" step="1" required>
+            <span class="field__description">От 3 до 360 месяцев.</span>
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">Процентная ставка, % годовых</span>
+            <input type="number" id="interest-rate" name="interest-rate" class="field__input" min="0" max="50" step="0.1" value="12" required>
+            <span class="field__description">Можно тестировать сценарии с нулевой ставкой и высокими значениями.</span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Ежемесячный доход клиента, ₽</span>
+            <input type="number" id="client-income" name="client-income" class="field__input" min="0" step="100" required>
+            <span class="field__description">Чем ниже доход, тем выше коэффициент долговой нагрузки.</span>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field__label">Комментарий менеджера</span>
+          <textarea id="manager-comment" name="manager-comment" class="field__textarea" rows="3" placeholder="Дополнительная информация о клиенте, целях кредита или стоп-факторах"></textarea>
+        </label>
+
+        <label class="agreement">
+          <input type="checkbox" id="consent" name="consent" required>
+          <span>Подтверждаю согласие клиента на обработку персональных данных</span>
+        </label>
+
+        <button type="submit" class="button">Рассчитать заявку</button>
+      </form>
+
+      <section id="credit-result" class="result" aria-live="polite"></section>
+    </section>
+  </main>
+
+  <nav class="pagination" aria-label="Навигация по страницам">
+    <a href="index.html" class="pagination__link">1</a>
+    <a href="credit.html" class="pagination__link pagination__link--active" aria-current="page">2</a>
+    <a href="rzd.html" class="pagination__link">3</a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
