@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initLegacyCreditApp();
   initCreditForm();
   initTicketForm();
+  initLifestylePage();
 });
 
 function initLegacyCreditApp() {
@@ -386,4 +387,311 @@ function selectDiscount(daysBefore, oneDayDiscount, threeDayDiscount, longDiscou
   }
 
   return 0;
+}
+
+const showGlobalToast = (() => {
+  let timeoutId;
+
+  return function showGlobalToast(message) {
+    const toast = document.getElementById('toast');
+
+    if (!toast) {
+      return;
+    }
+
+    toast.textContent = message;
+    toast.classList.add('toast--visible');
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      toast.classList.remove('toast--visible');
+    }, 3500);
+  };
+})();
+
+function initLifestylePage() {
+  const commentForm = document.getElementById('comment-form');
+  const commentInput = document.getElementById('comment-text');
+  const commentError = document.getElementById('comment-error');
+  const happinessSection = document.getElementById('happiness-section');
+  const happinessCheckboxes = happinessSection ? happinessSection.querySelectorAll('input[type="checkbox"]') : null;
+  const happinessIndexField = document.getElementById('happiness-index');
+  const cardForm = document.getElementById('card-form');
+  const cardSelect = document.getElementById('card-type');
+  const cardDetailsContainer = document.getElementById('card-details');
+  const cardError = document.getElementById('card-error');
+  const phoneForm = document.getElementById('phone-form');
+  const phoneInput = document.getElementById('phone-number');
+  const phoneError = document.getElementById('phone-error');
+  const simSelect = document.getElementById('sim-provider');
+
+  if (
+    !commentForm ||
+    !commentInput ||
+    !commentError ||
+    !happinessCheckboxes ||
+    !happinessIndexField ||
+    !cardForm ||
+    !cardSelect ||
+    !cardDetailsContainer ||
+    !cardError ||
+    !phoneForm ||
+    !phoneInput ||
+    !phoneError ||
+    !simSelect
+  ) {
+    return;
+  }
+
+  const commentPattern = /^[A-Za-zА-Яа-яЁё\s.,!?"'()\-]+$/;
+
+  commentForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const value = commentInput.value.trim();
+
+    if (!value) {
+      commentError.textContent = 'Комментарий обязателен.';
+      commentInput.focus();
+      return;
+    }
+
+    if (value.length > 500) {
+      commentError.textContent = 'Слишком длинный комментарий.';
+      commentInput.focus();
+      return;
+    }
+
+    if (!commentPattern.test(value)) {
+      commentError.textContent = 'Используйте допустимые символы.';
+      commentInput.focus();
+      return;
+    }
+
+    commentError.textContent = '';
+    showGlobalToast('Успех операции');
+  });
+
+  commentInput.addEventListener('input', () => {
+    if (commentError.textContent) {
+      commentError.textContent = '';
+    }
+  });
+
+  if (happinessCheckboxes.length) {
+    const updateHappinessIndex = () => {
+      let index = 0;
+
+      happinessCheckboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          index += Number(checkbox.dataset.value || 0);
+        }
+      });
+
+      happinessIndexField.value = index.toString();
+    };
+
+    happinessCheckboxes.forEach((checkbox) => {
+      checkbox.addEventListener('change', updateHappinessIndex);
+    });
+
+    updateHappinessIndex();
+  }
+
+  const cardDetailsMap = {
+    debit: [
+      { label: 'Тариф', value: '«Свободный баланс»' },
+      { label: 'Стоимость обслуживания', value: '0 ₽ при покупках от 5 000 ₽' },
+      { label: 'Кешбек за покупки', value: '5% в супермаркетах' }
+    ],
+    business: [
+      { label: 'Тариф', value: '«Бизнес-старт»' },
+      { label: 'Стоимость обслуживания', value: '2 490 ₽ в месяц' },
+      { label: 'Акция', value: 'Возврат 20% на рекламу' }
+    ],
+    credit: [
+      { label: 'Льготный период', value: '120 дней без процентов' },
+      { label: 'Стоимость обслуживания', value: '1 990 ₽ в год' },
+      { label: 'Кешбек за покупки', value: '7% в путешествиях' }
+    ],
+    gold: [
+      { label: 'Тариф', value: '«Золотая карта»' },
+      { label: 'Процент на остаток', value: '4.5% на счёте' },
+      { label: 'Кешбек за покупки', value: '10% в категориях месяца' }
+    ],
+    platinum: [
+      { label: 'Тариф', value: '«Platinum Select»' },
+      { label: 'Стоимость обслуживания', value: '4 990 ₽ в год' },
+      { label: 'Акция', value: 'Доступ в бизнес-залы 6 раз в год' }
+    ],
+    travel: [
+      { label: 'Тариф', value: '«Путешествуй»' },
+      { label: 'Льготный период', value: '90 дней без процентов' },
+      { label: 'Бонусы', value: 'Мили за каждую покупку' }
+    ],
+    youth: [
+      { label: 'Тариф', value: '«Юниор»' },
+      { label: 'Стоимость обслуживания', value: '0 ₽ до 23 лет' },
+      { label: 'Процент на остаток', value: '6% при активных покупках' }
+    ],
+    premium: [
+      { label: 'Тариф', value: '«Premium Club»' },
+      { label: 'Стоимость обслуживания', value: '9 900 ₽ в год' },
+      { label: 'Акция', value: 'Персональный менеджер 24/7' }
+    ],
+    digital: [
+      { label: 'Тариф', value: '«Онлайн-поток»' },
+      { label: 'Стоимость обслуживания', value: '0 ₽ при подписке на сервисы' },
+      { label: 'Кешбек за покупки', value: '5% на цифровые товары' }
+    ],
+    cobrand: [
+      { label: 'Партнёр', value: 'Авиакомпания «Северное небо»' },
+      { label: 'Льготный период', value: '60 дней без процентов' },
+      { label: 'Кешбек за покупки', value: 'Бонусные мили х2 у партнёра' }
+    ]
+  };
+
+  const renderCardDetails = (cardType) => {
+    const details = cardDetailsMap[cardType];
+
+    if (!details) {
+      cardDetailsContainer.innerHTML = '<p class="placeholder">Выберите карту, чтобы увидеть условия.</p>';
+      return;
+    }
+
+    const items = details
+      .map((detail) => `
+        <div class="details-list__item">
+          <dt>${detail.label}</dt>
+          <dd>${detail.value}</dd>
+        </div>
+      `)
+      .join('');
+
+    cardDetailsContainer.innerHTML = `
+      <dl class="details-list">
+        ${items}
+      </dl>
+    `;
+  };
+
+  renderCardDetails(cardSelect.value);
+
+  cardSelect.addEventListener('change', () => {
+    if (cardError.textContent) {
+      cardError.textContent = '';
+    }
+    renderCardDetails(cardSelect.value);
+  });
+
+  cardForm.addEventListener('change', (event) => {
+    if (event.target.name === 'card-gender' && cardError.textContent) {
+      cardError.textContent = '';
+    }
+  });
+
+  cardForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const selectedCard = cardSelect.value;
+    const selectedGender = cardForm.querySelector('input[name="card-gender"]:checked');
+
+    if (!selectedCard) {
+      cardError.textContent = 'Выберите тип карты.';
+      cardSelect.focus();
+      return;
+    }
+
+    if (!selectedGender) {
+      cardError.textContent = 'Укажите получателя карты.';
+      return;
+    }
+
+    cardError.textContent = '';
+
+    if (selectedGender.value === 'male') {
+      showGlobalToast('Карточка оформлена, бонус за карту 100 рублей');
+    } else {
+      showGlobalToast('Карточка оформлена, бонус за карту 69 рублей');
+    }
+  });
+
+  const phonePattern = /^\+7\s\d{3}\s\d{3}\s\d{2}\s\d{2}$/;
+
+  const formatPhone = (value) => {
+    const digits = value.replace(/\D/g, '');
+
+    if (!digits) {
+      return '';
+    }
+
+    let normalized = digits;
+
+    if (normalized.startsWith('8')) {
+      normalized = `7${normalized.slice(1)}`;
+    }
+
+    if (!normalized.startsWith('7')) {
+      normalized = `7${normalized}`;
+    }
+
+    normalized = normalized.slice(0, 11);
+
+    const rest = normalized.slice(1);
+    let result = '+7';
+
+    if (rest.length > 0) {
+      result += ` ${rest.slice(0, 3)}`;
+    }
+
+    if (rest.length > 3) {
+      result += ` ${rest.slice(3, 6)}`;
+    }
+
+    if (rest.length > 6) {
+      result += ` ${rest.slice(6, 8)}`;
+    }
+
+    if (rest.length > 8) {
+      result += ` ${rest.slice(8, 10)}`;
+    }
+
+    return result;
+  };
+
+  phoneInput.addEventListener('input', (event) => {
+    const formatted = formatPhone(event.target.value);
+    event.target.value = formatted;
+
+    if (phoneError.textContent) {
+      phoneError.textContent = '';
+    }
+  });
+
+  simSelect.addEventListener('change', () => {
+    if (phoneError.textContent) {
+      phoneError.textContent = '';
+    }
+  });
+
+  phoneForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const value = phoneInput.value.trim();
+    const provider = simSelect.value;
+
+    if (!phonePattern.test(value)) {
+      phoneError.textContent = 'Укажите телефон в формате +7 999 999 99 99.';
+      phoneInput.focus();
+      return;
+    }
+
+    if (!provider) {
+      phoneError.textContent = 'Выберите оператора.';
+      simSelect.focus();
+      return;
+    }
+
+    phoneError.textContent = '';
+    showGlobalToast('Успех операции');
+  });
 }

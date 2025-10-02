@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тестовое задание — Интерактивные сценарии</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-header__badge">Тестовое задание для QA</p>
+      <h1 class="site-header__title">Интерактивные сценарии</h1>
+      <p class="site-header__subtitle">Четыре независимых блока для проверки обязательных полей, динамических расчётов и уведомлений.</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <div class="quad-grid">
+      <section class="quad" aria-labelledby="comment-title">
+        <div class="quad__header">
+          <h2 id="comment-title" class="quad__title">Комментарий</h2>
+          <p class="quad__note">Проверьте обязательное поле с валидацией длины и символов.</p>
+        </div>
+        <form id="comment-form" class="quad-form" novalidate>
+          <label class="field">
+            <span class="field__label">Комментарий</span>
+            <textarea id="comment-text" name="comment" class="field__textarea" rows="6" required maxlength="500" placeholder="Напишите своё впечатление"></textarea>
+          </label>
+          <span class="field__error" id="comment-error"></span>
+          <button type="submit" class="button">Сохранить</button>
+        </form>
+      </section>
+
+      <section class="quad" id="happiness-section" aria-labelledby="happiness-title">
+        <div class="quad__header">
+          <h2 id="happiness-title" class="quad__title">Индекс счастья</h2>
+          <p class="quad__note">Комбинируйте факторы и наблюдайте за пересчётом индекса.</p>
+        </div>
+        <div class="checkbox-group">
+          <label class="checkbox">
+            <input type="checkbox" name="happiness" value="morning" data-value="12">
+            <span>Утренние пробежки и зарядка</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="happiness" value="work" data-value="18">
+            <span>Любимая работа и признание</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="happiness" value="family" data-value="20">
+            <span>Тёплые семейные вечера</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="happiness" value="travel" data-value="15">
+            <span>Путешествия дважды в год</span>
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" name="happiness" value="gratitude" data-value="10">
+            <span>Ежедневная благодарность</span>
+          </label>
+        </div>
+        <div class="happiness-output" aria-live="polite">
+          <span class="happiness-output__label">Индекс счастья</span>
+          <input type="text" id="happiness-index" class="happiness-output__value" value="0" readonly>
+        </div>
+      </section>
+
+      <section class="quad" aria-labelledby="card-title">
+        <div class="quad__header">
+          <h2 id="card-title" class="quad__title">Выбор банковской карты</h2>
+          <p class="quad__note">Изучите условия предложений и сохраните заявку.</p>
+        </div>
+        <form id="card-form" class="quad-form" novalidate>
+          <label class="field">
+            <span class="field__label">Тип карты</span>
+            <select id="card-type" name="card-type" class="field__select" required>
+              <option value="">Выберите вариант</option>
+              <option value="debit">Дебетовая</option>
+              <option value="business">Бизнес</option>
+              <option value="credit">Кредитная</option>
+              <option value="gold">Золотая</option>
+              <option value="platinum">Платиновая</option>
+              <option value="travel">Путешествия</option>
+              <option value="youth">Молодёжная</option>
+              <option value="premium">Премиальная</option>
+              <option value="digital">Цифровая</option>
+              <option value="cobrand">Кобрендинговая</option>
+            </select>
+          </label>
+
+          <div id="card-details" class="card-details" aria-live="polite">
+            <p class="placeholder">Выберите карту, чтобы увидеть условия.</p>
+          </div>
+
+          <fieldset class="radio-group">
+            <legend class="radio-group__legend">Получатель карты</legend>
+            <label class="radio">
+              <input type="radio" name="card-gender" value="male">
+              <span>Мужчина</span>
+            </label>
+            <label class="radio">
+              <input type="radio" name="card-gender" value="female">
+              <span>Женщина</span>
+            </label>
+          </fieldset>
+
+          <span class="field__error" id="card-error"></span>
+
+          <button type="submit" class="button">Оформить</button>
+        </form>
+      </section>
+
+      <section class="quad" aria-labelledby="phone-title">
+        <div class="quad__header">
+          <h2 id="phone-title" class="quad__title">SIM и контактный номер</h2>
+          <p class="quad__note">Проверьте маску телефона и выбор оператора.</p>
+        </div>
+        <form id="phone-form" class="quad-form" novalidate>
+          <label class="field">
+            <span class="field__label">Телефон</span>
+            <input type="tel" id="phone-number" name="phone-number" class="field__input" placeholder="+7 999 999 99 99" required>
+          </label>
+
+          <label class="field">
+            <span class="field__label">SIM</span>
+            <select id="sim-provider" name="sim-provider" class="field__select" required>
+              <option value="">Выберите оператора</option>
+              <option value="beeline">Билайн</option>
+              <option value="tele2">Теле2</option>
+              <option value="mts">МТС</option>
+            </select>
+          </label>
+
+          <span class="field__error" id="phone-error"></span>
+
+          <button type="submit" class="button">Сохранить</button>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
+
+  <nav class="pagination" aria-label="Навигация по страницам">
+    <a href="index.html" class="pagination__link">1</a>
+    <a href="credit.html" class="pagination__link">2</a>
+    <a href="rzd.html" class="pagination__link">3</a>
+    <a href="lifestyle.html" class="pagination__link pagination__link--active" aria-current="page">4</a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
