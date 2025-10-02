@@ -3,68 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Кредитная заявка</title>
+  <title>Тестовое задание — Кредитная заявка</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="app">
-    <header class="app__header">
-      <h1>Кредитная заявка</h1>
-      <nav class="tabs" role="tablist">
-        <button class="tabs__tab tabs__tab--active" data-target="home" role="tab" aria-selected="true">Главная</button>
-        <button class="tabs__tab" data-target="profile" role="tab" aria-selected="false">Профиль</button>
-      </nav>
-    </header>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-header__badge">Тестовое задание для QA</p>
+      <h1 class="site-header__title">Кредитная заявка</h1>
+      <p class="site-header__subtitle">На этой странице собраны поля и сценарии, которые помогут протестировать процесс подачи кредитной заявки.</p>
+    </div>
+  </header>
 
-    <main class="app__content">
-      <section id="home" class="tab-content tab-content--active" role="tabpanel">
-        <button id="open-application" class="primary-button">Отправить заявку на получение кредита</button>
+  <main class="page">
+    <section class="card" aria-labelledby="credit-form-title">
+      <header class="card__header">
+        <h2 id="credit-form-title">Форма заявки</h2>
+        <p class="card__hint">Заполните данные клиента. После отправки заявки появится расчёт с ежемесячным платежом и коэффициентом долговой нагрузки.</p>
+      </header>
 
-        <section id="application" class="application application--hidden" aria-live="polite">
-          <header class="application__header">
-            <h2>Статус заявки</h2>
-            <div class="stages" role="list">
-              <div class="stage stage--active" data-stage-index="0">Формирование</div>
-              <div class="stage" data-stage-index="1">Согласование</div>
-              <div class="stage" data-stage-index="2">Регистрация</div>
-              <div class="stage" data-stage-index="3">В работе</div>
-              <div class="stage" data-stage-index="4">Выполнено</div>
-              <button id="next-stage" class="stage-control" aria-label="Следующий этап" title="Следующий этап">➡</button>
-            </div>
-          </header>
-
-          <div class="application__body">
-            <label class="field">
-              <span class="field__label">Менеджер</span>
-              <input type="text" id="manager" class="field__input" placeholder="Нажмите, чтобы подставить имя из профиля" readonly>
-            </label>
-          </div>
-        </section>
-      </section>
-
-      <section id="profile" class="tab-content" role="tabpanel">
-        <form id="profile-form" class="profile" novalidate>
-          <p class="profile__hint">Имя должно состоять минимум из 2 букв, допустимы только кириллица и пробелы.</p>
+      <form id="credit-form" class="form" novalidate>
+        <div class="form__row">
           <label class="field">
-            <span class="field__label">Имя</span>
-            <input type="text" id="name" class="field__input" name="name" placeholder="Введите имя" required pattern="^[А-Яа-яЁё\s]{2,}$">
-            <span class="field__error" id="name-error"></span>
+            <span class="field__label">ФИО клиента</span>
+            <input type="text" id="client-name" name="client-name" class="field__input" placeholder="Например, Иванов Иван Иванович" required pattern="^[А-Яа-яЁё\-\s]{5,}$">
+            <span class="field__description">Допускаются только кириллица, дефис и пробелы (не менее 5 символов).</span>
           </label>
 
-          <p class="profile__hint">Email должен соответствовать формату user@example.com.</p>
           <label class="field">
-            <span class="field__label">Email</span>
-            <input type="email" id="email" class="field__input" name="email" placeholder="Введите email">
-            <span class="field__error" id="email-error"></span>
+            <span class="field__label">Номер телефона</span>
+            <input type="tel" id="client-phone" name="client-phone" class="field__input" placeholder="+7 (___) ___-__-__" required pattern="^\+7\s?\(?\d{3}\)?[\s\-]?\d{3}[\s\-]?\d{2}[\s\-]?\d{2}$">
+            <span class="field__description">Формат +7 (999) 000-00-00.</span>
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">Сумма кредита, ₽</span>
+            <input type="number" id="loan-amount" name="loan-amount" class="field__input" min="10000" max="10000000" step="1000" required>
+            <span class="field__description">Минимум 10 000 ₽, максимум 10 000 000 ₽.</span>
           </label>
 
-          <button type="submit" class="primary-button">Сохранить</button>
-        </form>
-      </section>
-    </main>
-  </div>
+          <label class="field">
+            <span class="field__label">Срок кредита, месяцев</span>
+            <input type="number" id="loan-term" name="loan-term" class="field__input" min="3" max="360" step="1" required>
+            <span class="field__description">От 3 до 360 месяцев.</span>
+          </label>
+        </div>
 
-  <div id="toast" class="toast" role="status" aria-live="assertive"></div>
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">Процентная ставка, % годовых</span>
+            <input type="number" id="interest-rate" name="interest-rate" class="field__input" min="0" max="50" step="0.1" value="12" required>
+            <span class="field__description">Можно тестировать сценарии с нулевой ставкой и высокими значениями.</span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Ежемесячный доход клиента, ₽</span>
+            <input type="number" id="client-income" name="client-income" class="field__input" min="0" step="100" required>
+            <span class="field__description">Чем ниже доход, тем выше коэффициент долговой нагрузки.</span>
+          </label>
+        </div>
+
+        <label class="field">
+          <span class="field__label">Комментарий менеджера</span>
+          <textarea id="manager-comment" name="manager-comment" class="field__textarea" rows="3" placeholder="Дополнительная информация о клиенте, целях кредита или стоп-факторах"></textarea>
+        </label>
+
+        <label class="agreement">
+          <input type="checkbox" id="consent" name="consent" required>
+          <span>Подтверждаю согласие клиента на обработку персональных данных</span>
+        </label>
+
+        <button type="submit" class="button">Рассчитать заявку</button>
+      </form>
+
+      <section id="credit-result" class="result" aria-live="polite"></section>
+    </section>
+  </main>
+
+  <nav class="pagination" aria-label="Навигация по страницам">
+    <a href="index.html" class="pagination__link pagination__link--active" aria-current="page">1</a>
+    <a href="rzd.html" class="pagination__link">2</a>
+  </nav>
 
   <script src="script.js"></script>
 </body>

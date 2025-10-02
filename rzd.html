@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Тестовое задание — Касса билетов РЖД</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <p class="site-header__badge">Тестовое задание для QA</p>
+      <h1 class="site-header__title">Касса билетов РЖД</h1>
+      <p class="site-header__subtitle">Стоимость билета — 1000 ₽. Скидка зависит от возраста пассажира и времени до отправления.</p>
+    </div>
+  </header>
+
+  <main class="page">
+    <section class="card" aria-labelledby="ticket-form-title">
+      <header class="card__header">
+        <h2 id="ticket-form-title">Параметры покупки</h2>
+        <p class="card__hint">Введите возраст пассажира и сколько полных дней осталось до отправления. Алгоритм проверит ограничения и рассчитает итоговую стоимость.</p>
+      </header>
+
+      <form id="ticket-form" class="form" novalidate>
+        <div class="form__row">
+          <label class="field">
+            <span class="field__label">Возраст пассажира, лет</span>
+            <input type="number" id="passenger-age" name="passenger-age" class="field__input" min="0" max="120" step="0.01" required>
+            <span class="field__description">Можно указывать дробные значения (например, 18.5 означает 18 лет и 6 месяцев).</span>
+          </label>
+
+          <label class="field">
+            <span class="field__label">Дней до отправления</span>
+            <input type="number" id="days-before" name="days-before" class="field__input" min="0" max="365" step="1" required>
+            <span class="field__description">0 — покупка в день отправления, 1 — за один день, 2 — за два и т.д.</span>
+          </label>
+        </div>
+
+        <button type="submit" class="button">Рассчитать стоимость</button>
+      </form>
+
+      <section id="ticket-result" class="result" aria-live="polite"></section>
+
+      <section class="rules" aria-labelledby="rules-title">
+        <h2 id="rules-title">Правила расчёта скидок</h2>
+        <ul class="rules__list">
+          <li>Пассажиры младше 18 лет и ровно в 18 лет купить билет не могут.</li>
+          <li>От 18 лет 1 дня до 20 лет включительно — покупка доступна без скидки независимо от срока.</li>
+          <li>От 20 лет 1 дня до 50 лет включительно: за 1 день до отправления скидка 10%, за 2–3 дня — 35%, более чем за 3 дня — 40%.</li>
+          <li>От 50 лет 1 дня до 90 лет включительно: за 1 день до отправления скидка 15%, за 2–3 дня — 40%, более чем за 3 дня — 50%.</li>
+          <li>Возраст 100 лет и старше — покупка запрещена. Значения от 90 до 100 лет требуют уточнения и помечаются как не обслуживаются.</li>
+        </ul>
+      </section>
+    </section>
+  </main>
+
+  <nav class="pagination" aria-label="Навигация по страницам">
+    <a href="index.html" class="pagination__link">1</a>
+    <a href="rzd.html" class="pagination__link pagination__link--active" aria-current="page">2</a>
+  </nav>
+
+  <script src="script.js"></script>
+</body>
+</html>
